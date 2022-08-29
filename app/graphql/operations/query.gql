@@ -1,0 +1,124 @@
+query GetPostsId {
+  posts(
+    first: 10
+  ) {
+    slug
+    publishedBy {
+      id
+    }
+  }
+}
+
+query GetAllPosts {
+  posts(
+    first: 15
+  ) {
+    ...PostCard
+  }
+}
+
+query GetPostBySlug($slug: String!) {
+  post(
+    where: {
+      slug: $slug
+    }
+  ) {
+    ...BasePost
+    content {
+      text
+      json
+    }
+    # commentsCount
+    comments(
+      first: 5,
+      orderBy: publishedAt_DESC
+    ) {
+      ...BaseComment
+    }
+  }
+}
+
+query GetAllCategories {
+  categories {
+    id
+    name
+    slug
+  }
+}
+
+query GetPostsByCategorySlug($slug: String!) {
+  category(
+    where: {
+      slug: $slug
+    }
+  ) {
+    id
+    name
+    posts {
+      ...PostCard
+    }
+  }
+}
+
+query GetSimmilarPosts ($categories: [ID!]) {
+  posts(
+    where: {
+      categories_some: {
+        id_in: $categories
+      }
+    },
+    first: 3,
+  ) {
+    ...PostCard
+  }
+}
+
+query GetAdjacentPost($createdAt: DateTime!) {
+  next:posts(
+    first: 1,
+    orderBy: publishedAt_ASC,
+    where: {
+      publishedAt_gte: $createdAt
+    }
+  ) {
+    ...AdjacentPost
+  }
+  prev:posts(
+    first: 1,
+    orderBy: publishedAt_DESC,
+    where: {
+      publishedAt_lte: $createdAt
+    }
+  ) {
+    ...AdjacentPost
+  }
+}
+
+query GetFeaturedPosts {
+  posts(where: {
+    featuredPost: true
+  }) {
+    ...BasePost
+  }
+}
+
+query GetCommentsByPost($slug: String!) {
+  post(
+    where: {
+      slug: $slug
+    }
+  ) {
+    comments(
+      first: 5,
+      orderBy: publishedAt_DESC,
+    ) {
+      ...BaseComment
+    }
+  }
+}
+
+query GetUser($id: ID!) {
+  user(where: {id: $id}) {
+    ...BaseAuthor
+  }
+}

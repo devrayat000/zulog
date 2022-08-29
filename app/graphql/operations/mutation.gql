@@ -1,0 +1,15 @@
+mutation SubmitComment($comment: String!) {
+    # createComment(data: {
+    #     comment: $comment,
+        
+    # }) {
+    #   ...BaseComment
+    # }
+    createComment(
+        data: {
+            comment: $comment
+        }
+    ) {
+      ...BaseComment
+    }
+}

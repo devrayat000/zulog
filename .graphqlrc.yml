@@ -1,0 +1,19 @@
+schema: ${NEXT_PUBLIC_API_URL:"https://api-ap-south-1.hygraph.com/v2/cl5fbl9ag25vm01uhgaedfyhh/master"}
+documents: app/graphql/**/*.{gql,graphql}
+
+extensions:
+  codegen:
+    overwrite: true
+    schema: ${NEXT_PUBLIC_API_URL:"https://api-ap-south-1.hygraph.com/v2/cl5fbl9ag25vm01uhgaedfyhh/master"}
+    documents: app/graphql/**/*.{gql,graphql}
+
+    generates:
+      app/graphql/generated.ts:
+        plugins:
+          - typescript
+          - typescript-operations
+          - typescript-graphql-request
+
+        config:
+          gqlImport: graphql-request#gql
+          dedupeFragments: true

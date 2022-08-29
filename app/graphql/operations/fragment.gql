@@ -1,0 +1,55 @@
+fragment BasePost on Post {
+  id
+  title
+  featuredImage {
+    ...BaseImage
+    width
+    height
+  }
+  categories {
+    ...BaseCategory
+  }
+  author:publishedBy {
+    ...BaseAuthor
+  }
+  publishedAt
+}
+
+fragment PostCard on Post {
+  ...BasePost
+  slug
+  excert
+}
+
+fragment BaseImage on Asset {
+  id
+  url
+}
+
+fragment BaseAuthor on User {
+  id
+  name
+  picture
+}
+
+fragment BaseCategory on Category {
+  id
+  name
+  slug
+}
+
+fragment AdjacentPost on Post {
+  id
+  title
+  slug
+}
+
+fragment BaseComment on Comment {
+  id
+  comment
+  user:publishedBy {
+    name
+    picture
+  }
+  createdAt
+}
